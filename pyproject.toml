@@ -1,0 +1,30 @@
+[project]
+name = "terminator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "canureal", email = "dnzdyn2012@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "docker>=7.2.0",
+    "langchain>=1.4.6",
+    "langchain-google-genai>=4.4.2",
+    "langchain-google-vertexai>=3.2.4",
+    "langchain-ollama>=1.1.0",
+    "langchain-openrouter>=0.2.9",
+    "langgraph>=1.2.16",
+    "playwright>=1.64.0",
+]
+
+[project.scripts]
+terminator = "terminator:main"
+
+[build-system]
+requires = ["uv_build>=0.12.22,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
