@@ -1,6 +1,6 @@
 from os import read
-from terminator.tools import get_weather
 from langchain.agents import create_agent
+from .tools import get_weather
 
 with open("prompt.md", "r", encoding="utf-8") as file:
     content = file.read()
