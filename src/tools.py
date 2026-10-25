@@ -1,15 +1,18 @@
+import atexit
+
 from langchain.tools import tool
+from .sandbox import Sandbox
 
-# we could add tavily for web search
-@tool
-def get_weather(city: str) -> str:
-    """
-        Get the weather at the given city
-    """
-    return f"It's always sunny in {city}!"
+sandbox = Sandbox()
+atexit.register(sandbox.close) # when app shuts down, close the container
 
 @tool
-def run_command(args: str) -> str:
+def execute(command: str) -> str:
     """
-        runs command on container
+    Runs a command in a alpine linux container
+    - no internet
+    - no bash, only sh
+    - every command returns stdout+stderr
     """
+
+    return sandbox.execute(command)

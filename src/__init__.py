@@ -1,6 +1,6 @@
 from os import read
 from langchain.agents import create_agent
-from .tools import get_weather
+from .tools import execute
 
 with open("prompt.md", "r", encoding="utf-8") as file:
     content = file.read()
@@ -9,17 +9,18 @@ def main() -> None:
     agent = create_agent(
         model="openrouter:openrouter/free",
         tools=[
-            get_weather
+            execute
         ],
         system_prompt=content,
     )
+
 
     result = agent.invoke(
         {
             "messages": [
                 {
                     "role": "user",
-                    "content": "What's the weather in izmir"
+                    "content": "Create a directory with mkdir and show me the output"
                 }
             ]
         }

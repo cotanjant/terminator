@@ -12,9 +12,7 @@ It aims to be autonomous rag agent thatt you can communicate through http or its
 
 ## Sandbox first
 
-Agents operating inside a **burner**(we can say throwaway too) docker container
-
-> What i mean by burner is it destroys the container after usage
+Agents operating inside a sandbox provided locally with **Docker**
 
 ## Used,
 - Langchain
