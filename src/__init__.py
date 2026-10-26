@@ -1,29 +1,45 @@
-from os import read
-from langchain.agents import create_agent
-from .tools import execute
+import uuid
 
-with open("prompt.md", "r", encoding="utf-8") as file:
-    content = file.read()
+from src.agent import build_graph
+from .tools import Sandbox
+
+
+def text_of(content) -> str:
+    # some models return different outputs
+    if isinstance(content, str):
+        return content
+    return "".join(b.get("text", "") for b in content if b.get("type") == "text")
+
+
+def show(m):
+    if m.type == "ai":
+        for tc in m.tool_calls:
+            print(f"$ {tc['args']['cmd']}")
+        if text := text_of(m.content):
+            print(text)
+    elif m.type == "tool":
+        print(m.content)
+
 
 def main() -> None:
-    agent = create_agent(
-        model="openrouter:openrouter/free",
-        tools=[
-            execute
-        ],
-        system_prompt=content,
-    )
+    sandbox = Sandbox()
+    graph = build_graph(sandbox, "openrouter:openrouter/free")  # let's get LE CHONK
+    config = {
+        "configurable": {"thread_id": str(uuid.uuid4())},
+        "recursion_limit": 40,
+    }
 
+    try:
+        while True:
+            user = input("> ").strip()
+            if user in ("exit", "quit"):
+                break
 
-    result = agent.invoke(
-        {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "Create a directory with mkdir and show me the output"
-                }
-            ]
-        }
-    )
-
-    print(result["messages"][-1].content_blocks) # this content_blocks is the way of us to read json as blocks
+            for state in graph.stream(
+                {"messages": [{"role": "user", "content": user}]},
+                config,
+                stream_mode="values",
+            ):
+                show(state["messages"][-1])
+    finally:
+        sandbox.close()
