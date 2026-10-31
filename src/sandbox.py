@@ -4,7 +4,7 @@ from base64 import decode
 import docker
 
 class Sandbox:
-    def __init__(self, image="alpine:3.14", workspace=None):
+    def __init__(self, image="ubuntu:22.04", workspace=None):
         self.client = docker.from_env()
         # we don't give agent's sandbox a volume
         # we want this to be a throwaway execution container

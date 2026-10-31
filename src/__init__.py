@@ -1,8 +1,7 @@
 import uuid
 
 from src.agent import build_graph
-from .tools import Sandbox
-
+from .sandbox import Sandbox
 
 def text_of(content) -> str:
     # some models return different outputs
@@ -14,7 +13,9 @@ def text_of(content) -> str:
 def show(m):
     if m.type == "ai":
         for tc in m.tool_calls:
-            print(f"$ {tc['args']['cmd']}")
+            print(f"$ - TOOL USE {tc['name']}")
+            print(f"$ - ARGS {tc['args']}")
+
         if text := text_of(m.content):
             print(text)
     elif m.type == "tool":
