@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "terminator"
+version = "0.1.0"
+description = "Self-hosted autonomous AI agent running in a Docker sandbox"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "docker>=7.0.0",
+    "fastapi>=0.115.0",
+    "langchain>=0.3.0",
+    "langchain-google-genai>=2.0.0",
+    "langgraph>=0.2.0",
+    "prompt-toolkit>=3.0.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.0.0",
+    "uvicorn[standard]>=0.30.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["src*"]
